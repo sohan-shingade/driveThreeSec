@@ -4,15 +4,9 @@
 
 package frc.robot;
 
-import com.ctre.phoenix.motorcontrol.ControlMode;
-import com.ctre.phoenix.motorcontrol.can.TalonSRX;
-
-import edu.wpi.first.wpilibj.Joystick;
 import edu.wpi.first.wpilibj.TimedRobot;
-import edu.wpi.first.wpilibj.Timer;
 import edu.wpi.first.wpilibj2.command.Command;
 import edu.wpi.first.wpilibj2.command.CommandScheduler;
-import edu.wpi.first.wpilibj2.command.button.JoystickButton;
 
 /**
  * The VM is configured to automatically run this class, and to call the functions corresponding to
@@ -24,15 +18,6 @@ public class Robot extends TimedRobot {
   private Command m_autonomousCommand;
 
   private RobotContainer m_robotContainer;
-  public TalonSRX leftLead;
-  public TalonSRX leftFollow;
-  public TalonSRX rightLead;
-  public TalonSRX rightFollow;
-
-  public Joystick joystick;
-  public JoystickButton joystickButton;
-
-  double startTime;
 
   /**
    * This function is run when the robot is first started up and should be used for any
@@ -43,22 +28,6 @@ public class Robot extends TimedRobot {
     // Instantiate our RobotContainer.  This will perform all our button bindings, and put our
     // autonomous chooser on the dashboard.
     m_robotContainer = new RobotContainer();
-
-    leftLead = new TalonSRX(0);
-    leftFollow = new TalonSRX(1);
-    rightLead = new TalonSRX(2);
-    rightFollow = new TalonSRX(3);
-
-    rightFollow.follow(rightLead);
-    leftFollow.follow(rightLead);
-
-    rightLead.setInverted(true);
-    rightFollow.setInverted(true);
-
-    joystick = new Joystick(0);
-    joystickButton = new JoystickButton(joystick, 0);
-
-    startTime = -1;
   }
 
   /**
@@ -113,22 +82,6 @@ public class Robot extends TimedRobot {
   /** This function is called periodically during operator control. */
   @Override
   public void teleopPeriodic() {
-    if(joystickButton.get()){
-      startTime = Timer.getFPGATimestamp();
-    }
-    
-    if(startTime != -1){
-      if (Timer.getFPGATimestamp() - startTime <= 3) {
-        leftLead.set(ControlMode.PercentOutput, 0.5);
-        rightLead.set(ControlMode.PercentOutput, 0.5);
-      }
-      else {
-        leftLead.set(ControlMode.PercentOutput, 0.0);
-        rightLead.set(ControlMode.PercentOutput, 0.0);
-      }
-    }
-    
-  
 
   }
 
